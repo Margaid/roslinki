@@ -1,0 +1,41 @@
+﻿<Window x:Class="roslinkiXD.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:components="clr-namespace:roslinkiXD.Components"
+        xmlns:local="clr-namespace:roslinkiXD.View"
+        mc:Ignorable="d"
+        xmlns:viewmodel="clr-namespace:roslinkiXD.ViewModel"
+        Title="Panel logowania" Height="650" Width="1100">
+    <Window.Resources>
+        <viewmodel:MainViewModel x:Key="mainVM"/>
+        <SolidColorBrush x:Key="TransparentGold" Color="#DAA520" Opacity="0.6" />
+    </Window.Resources>
+    <Grid DataContext="{StaticResource mainVM}">
+        <Grid.Background>
+            <ImageBrush ImageSource="/Img/b1.jpg" Stretch="Fill"/>
+        </Grid.Background>
+        <DockPanel  Height="380" Width="600" Background="{StaticResource TransparentGold}" >
+            <StackPanel VerticalAlignment="Center" Height="340" Width="560" Background="#618358" Opacity="0.9" >
+                <Label Content="Logowanie" HorizontalAlignment="Center" FontWeight="Bold" 
+                      FontSize="25" Foreground="#DAA520" Margin="10,40"></Label>
+                <Label Content="Nazwa użytkownika:" FontWeight="Bold" Foreground="#DAA520" FontSize="13" Width="400"></Label>
+                <TextBox Text="{Binding Username,  UpdateSourceTrigger=PropertyChanged}" Width="400"></TextBox>
+                <Label Content="Hasło:" FontWeight="Bold" Width="400" Foreground="#DAA520" FontSize="13"></Label>
+                <components:BindablePasswordBox Grid.Column="1" Password="{Binding Password}" Width="400"/>
+                <Button Command="{Binding Login}" Content="Zaloguj się" HorizontalAlignment="Right" Foreground="#FFFFE0" Background="#DAA520" Width="120" Margin="0,20,30,0"/>
+                <Grid VerticalAlignment="Center" Width="200" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"  HorizontalAlignment="Center" FontSize="15" Foreground="#FFFFE0" Margin="-38,12,30,-12">Nie masz konta?</TextBlock>
+                    <Button Command="{Binding User}" FontWeight="Bold" FontSize="15" Content="Kontynuuj jako gość"  HorizontalAlignment="Center" Foreground="#DAA520" Background="#618358" Width="200" Grid.ColumnSpan="2" Margin="87,10,-87,-10"/>
+                </Grid>
+            </StackPanel>
+        </DockPanel>
+
+
+    </Grid>
+</Window>

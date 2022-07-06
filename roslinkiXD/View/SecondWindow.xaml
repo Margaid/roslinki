@@ -1,0 +1,572 @@
+﻿<Window x:Class="roslinkiXD.View.SecondWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:vm="clr-namespace:roslinkiXD.ViewModel"
+        mc:Ignorable="d"
+        Title="Rośliny domowe" Height="650" Width="1100">
+
+    <Window.Resources>
+        <vm:SecondViewModel x:Key="secondVM"/>
+        <SolidColorBrush x:Key="TransparentGold" Color="#DAA520" Opacity="0.6" />
+        <SolidColorBrush x:Key="TransparentGreen" Color="#618358" Opacity="0.6" />
+    </Window.Resources>
+
+    <Grid DataContext="{StaticResource secondVM}">
+        <!--WYŚWIETLENIE ROŚLIN-->
+
+        <Grid.Background>
+            <ImageBrush ImageSource="/img/b1.jpg" Stretch="Fill"/>
+        </Grid.Background>
+        <DockPanel  Height="580" Width="1060" Background="{StaticResource TransparentGold}" >
+            <StackPanel VerticalAlignment="Center" Height="550" Width="1030"  Background="{StaticResource TransparentGreen}" >
+                <Grid Margin="10,10,10,10" >
+                    <TabControl >
+                        <TabItem x:Name="przegladanie" Header="przeglądanie" Background="#DAA520" Foreground="#618358" >
+                            <Grid Background="#FFFFE9"  Height="500">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="2*"/>
+
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+
+                                </Grid.ColumnDefinitions>
+
+                                <!-- LISTA Roślin -->
+
+                                <ListView x:Name="rosliny" Grid.Column="0"   Grid.RowSpan="5"
+                              SelectedItem="{Binding TabListaVM.BiezacaRoslina}"
+                              ItemsSource="{Binding TabListaVM.Rośliny}"
+                              SelectedIndex="{Binding TabListaVM.IndeksZaznaczonejRośliny, Mode=TwoWay}" Margin="0,0,0,39"
+                              >
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SelectionChanged">
+                                            <i:InvokeCommandAction Command="{Binding TabListaVM.ZaladujRzedy}"/>
+                                            <i:InvokeCommandAction Command="{Binding TabListaVM.ZaladujRodzine}"/>
+                                            <i:InvokeCommandAction Command="{Binding TabListaVM.ZaladujNaslonecznienie}"/>
+                                            <i:InvokeCommandAction Command="{Binding TabListaVM.ZaladujPodlewanie}"/>
+                                            <i:InvokeCommandAction Command="{Binding TabListaVM.ZaladujPodłoże}"/>
+                                            <i:InvokeCommandAction Command="{Binding TabListaVM.ZaladujMiejsceWystepowania}"/>
+                                            <i:InvokeCommandAction Command="{Binding TabListaVM.ZaladujRodzine}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridView.Columns>
+                                                <GridViewColumn  x:Name="kolumna_id_rosliny">
+                                                    <GridViewColumn.HeaderContainerStyle>
+                                                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                            <Setter Property="Background" Value="{StaticResource TransparentGreen}" />
+                                                        </Style>
+                                                    </GridViewColumn.HeaderContainerStyle>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Id_rosliny}" FontSize="14"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                    <GridViewColumn.Header>
+                                                        <TextBlock Text="ID Rośliny"  Width="{Binding ActualWidth, ElementName=kolumna_id_rosliny}" >
+                                                           
+                                                                   
+                                             <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="MouseDown">
+                                                    <i:InvokeCommandAction Command="{Binding TabListaVM.ZaladujWszystkieRosliny}"/>
+                                                </i:EventTrigger>
+                                              </i:Interaction.Triggers>
+
+
+                                                        </TextBlock>
+                                                    </GridViewColumn.Header>
+                                                </GridViewColumn>
+
+                                                <GridViewColumn x:Name="kolumna_nazwa">
+                                                    <GridViewColumn.HeaderContainerStyle>
+                                                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                            <Setter Property="Background" Value="{StaticResource TransparentGreen}" />
+                                                        </Style>
+                                                    </GridViewColumn.HeaderContainerStyle>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Nazwa}" FontSize="14"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                    <GridViewColumn.Header>
+                                                        <TextBlock Text="Nazwa"  Width="{Binding ActualWidth, ElementName=kolumna_nazwa}"></TextBlock>
+                                                    </GridViewColumn.Header>
+                                                </GridViewColumn>
+
+                                                <GridViewColumn >
+                                                    <GridViewColumn.HeaderContainerStyle>
+                                                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                            <Setter Property="Background" Value="{StaticResource TransparentGreen}" />
+                                                        </Style>
+                                                    </GridViewColumn.HeaderContainerStyle>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Maksymalna_wysokosc}" FontSize="14"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                    <GridViewColumn.Header >
+
+                                                        <TextBlock Text="Maksymalna wysokość" ></TextBlock>
+                                                    </GridViewColumn.Header>
+                                                </GridViewColumn>
+
+                                                <GridViewColumn >
+                                                    <GridViewColumn.HeaderContainerStyle>
+                                                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                            <Setter Property="Background" Value="{StaticResource TransparentGreen}" />
+                                                        </Style>
+                                                    </GridViewColumn.HeaderContainerStyle>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Trudnosc_uprawy}" FontSize="14"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                    <GridViewColumn.Header>
+                                                        <TextBlock Text="Trudność uprawy" ></TextBlock>
+                                                    </GridViewColumn.Header>
+                                                </GridViewColumn>
+
+
+                                                <GridViewColumn >
+                                                    <GridViewColumn.HeaderContainerStyle>
+                                                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                            <Setter Property="Background" Value="{StaticResource TransparentGreen}" />
+                                                        </Style>
+                                                    </GridViewColumn.HeaderContainerStyle>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Kwasowosc}" FontSize="14"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                    <GridViewColumn.Header>
+                                                        <TextBlock Text="Kwasowość" ></TextBlock>
+                                                    </GridViewColumn.Header>
+                                                </GridViewColumn>
+                                            </GridView.Columns>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                                <!-- RESZTA O ROŚLINKACH -->
+                                <ListView x:Name="rzedy" Grid.Column="1"  Grid.Row="0" ItemsSource="{Binding TabListaVM.PusteRzedy}" >
+
+                                    <ListView.View >
+                                        <GridView >
+                                            <GridView.Columns>
+
+                                                <GridViewColumn  x:Name="kolumna1"  >
+                                                    <GridViewColumn.HeaderContainerStyle>
+                                                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                            <Setter Property="Background" Value="{StaticResource TransparentGreen}" />
+                                                        </Style>
+                                                    </GridViewColumn.HeaderContainerStyle>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Nazwa}" FontSize="14"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                    <GridViewColumn.Header>
+                                                        <TextBlock Text="Rząd"  Width="{Binding ActualWidth, ElementName=kolumna1}" >
+
+                                                        </TextBlock>
+                                                    </GridViewColumn.Header>
+                                                </GridViewColumn>
+                                            </GridView.Columns>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+
+
+                                <ListView x:Name="rodzina" Grid.Column="2"  Grid.Row="0" ItemsSource="{Binding TabListaVM.PustaRodzina}" >
+
+                                    <ListView.View >
+                                        <GridView >
+                                            <GridView.Columns>
+                                                <GridViewColumn  x:Name="kolumna2"  >
+
+                                                    <GridViewColumn.HeaderContainerStyle>
+                                                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                            <Setter Property="Background" Value="{StaticResource TransparentGreen}" />
+                                                        </Style>
+                                                    </GridViewColumn.HeaderContainerStyle>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Nazwa}" FontSize="14"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                    <GridViewColumn.Header>
+                                                        <TextBlock Text="Rodzina"  Width="{Binding ActualWidth, ElementName=kolumna2}" >
+
+                                                        </TextBlock>
+                                                    </GridViewColumn.Header>
+                                                </GridViewColumn>
+                                            </GridView.Columns>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+
+                                <ListView x:Name="naslonecznienie" Grid.Column="1"  Grid.Row="1" ItemsSource="{Binding TabListaVM.PusteNasłonecznienie}" >
+
+                                    <ListView.View >
+                                        <GridView >
+                                            <GridView.Columns>
+                                                <GridViewColumn  x:Name="kol_naslonecznienie"  >
+                                                    <GridViewColumn.HeaderContainerStyle>
+                                                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                            <Setter Property="Background" Value="{StaticResource TransparentGreen}" />
+                                                        </Style>
+                                                    </GridViewColumn.HeaderContainerStyle>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Stopien}" FontSize="14"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                    <GridViewColumn.Header>
+                                                        <TextBlock Text="Nasłonecznienie" Width="{Binding ActualWidth, ElementName=kol_naslonecznienie}" >
+
+                                                        </TextBlock>
+                                                    </GridViewColumn.Header>
+                                                </GridViewColumn>
+                                            </GridView.Columns>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+
+                                <ListView x:Name="podlewanie" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" ItemsSource="{Binding TabListaVM.PustePodlewanie}" >
+
+                                    <ListView.View >
+                                        <GridView >
+                                            <GridView.Columns>
+                                                <GridViewColumn  x:Name="kol_podlewanie1"  >
+                                                    <GridViewColumn.HeaderContainerStyle>
+                                                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                            <Setter Property="Background" Value="{StaticResource TransparentGreen}" />
+                                                        </Style>
+                                                    </GridViewColumn.HeaderContainerStyle>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Czestotliwosc}" FontSize="14"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                    <GridViewColumn.Header>
+                                                        <TextBlock Text="Podlewania"  Width="{Binding ActualWidth, ElementName=kol_podlewanie1}" >
+
+                                                        </TextBlock>
+                                                    </GridViewColumn.Header>
+                                                </GridViewColumn>
+                                                <GridViewColumn  x:Name="kol_podlewanie2"  >
+                                                    <GridViewColumn.HeaderContainerStyle>
+                                                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                            <Setter Property="Background" Value="{StaticResource TransparentGreen}" />
+                                                        </Style>
+                                                    </GridViewColumn.HeaderContainerStyle>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Wilgotnosc}" FontSize="14"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                    <GridViewColumn.Header>
+                                                        <TextBlock Text="Wilgotność" Width="{Binding ActualWidth, ElementName=kol_podlewanie2}" >
+
+                                                        </TextBlock>
+                                                    </GridViewColumn.Header>
+                                                </GridViewColumn>
+                                            </GridView.Columns>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+
+                                <ListView x:Name="podloze" Grid.Column="2"  Grid.Row="1" ItemsSource="{Binding TabListaVM.PustePodłoże}" >
+
+                                    <ListView.View >
+                                        <GridView >
+                                            <GridView.Columns>
+                                                <GridViewColumn  x:Name="kol_podłoże"  >
+                                                    <GridViewColumn.HeaderContainerStyle>
+                                                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                            <Setter Property="Background" Value="{StaticResource TransparentGreen}" />
+                                                        </Style>
+                                                    </GridViewColumn.HeaderContainerStyle>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Typ}" FontSize="14"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                    <GridViewColumn.Header>
+                                                        <TextBlock Text="Typ Podłoża"  Width="{Binding ActualWidth, ElementName=kol_podłoże}" >
+
+                                                        </TextBlock>
+                                                    </GridViewColumn.Header>
+                                                </GridViewColumn>
+                                            </GridView.Columns>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+
+                                <ListView x:Name="miejscewystepowania" Grid.Column="1"  Grid.ColumnSpan="2" Grid.Row="3" ItemsSource="{Binding TabListaVM.PusteMiejsceWystepowania}" Margin="0,0,0,39" Grid.RowSpan="2" >
+
+                                    <ListView.View >
+                                        <GridView >
+                                            <GridView.Columns>
+                                                <GridViewColumn  x:Name="kol_miejscewystepowania1"  >
+                                                    <GridViewColumn.HeaderContainerStyle>
+                                                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                            <Setter Property="Background" Value="{StaticResource TransparentGreen}" />
+                                                        </Style>
+                                                    </GridViewColumn.HeaderContainerStyle>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Kontynent}" FontSize="14"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                    <GridViewColumn.Header>
+                                                        <TextBlock Text="Kontynent" Width="{Binding ActualWidth, ElementName=kol_miejscewystepowania1}" >
+
+                                                        </TextBlock>
+                                                    </GridViewColumn.Header>
+                                                </GridViewColumn>
+                                                <GridViewColumn x:Name="kol_miejscewystepowania2"  >
+                                                    <GridViewColumn.HeaderContainerStyle>
+                                                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                            <Setter Property="Background" Value="{StaticResource TransparentGreen}" />
+                                                        </Style>
+                                                    </GridViewColumn.HeaderContainerStyle>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Klimat}" FontSize="14"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                    <GridViewColumn.Header>
+                                                        <TextBlock Text="Klimat"  Width="{Binding ActualWidth, ElementName=kol_miejscewystepowania2}" >
+
+                                                        </TextBlock>
+                                                    </GridViewColumn.Header>
+                                                </GridViewColumn>
+                                            </GridView.Columns>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+
+                                <Button Grid.Row="4" Command="{Binding TabListaVM.Dodaj}" x:Name="dodaj_rosline" FontSize="14" Content="Dodaj roślinę do mojego zbioru" VerticalAlignment="Top"  Margin="0,22,0,0" HorizontalAlignment="Right"  FontWeight="Bold" Height="34" Foreground="#618358" Background="{StaticResource TransparentGold}" Grid.ColumnSpan="3" Width="1004"/>
+                            </Grid>
+                        </TabItem>
+
+
+
+                        <!--MOJE ROŚLINY-->
+                        <TabItem x:Name="moje"   Header="moje rośliny" Background="#DAA520" Foreground="#618358" >
+
+                            <Grid Background="#FFFFE9"  Height="500">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="13*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- LISTA Moich Roślin -->
+
+                                <ListView x:Name="nazwa_mojej_rosliny" Grid.Row="0"  Grid.Column="0" 
+                              ItemsSource="{Binding TabMojeRoslinyVM.RoślinyID}" Margin="177,0,0,0" >
+                                    <ListView.View >
+                                        <GridView >
+                                            <GridViewColumn Width="200" x:Name="MRnazwa"  >
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Nazwa}"  FontSize="14"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                                <GridViewColumn.Header>
+                                                    <TextBlock Text="Nazwa rośliny"   >
+
+                                                    </TextBlock>
+                                                </GridViewColumn.Header>
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+
+
+                                <ListView x:Name="moje_rosliny" Grid.Row="0"   Grid.Column="1"
+                              ItemsSource="{Binding TabMojeRoslinyVM.PusteMojeRosliny}" Margin="0,0,178,0" >
+                                    <ListView.View >
+                                        <GridView >
+                                            <GridViewColumn Width="200" x:Name="MRilosc"  >
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate >
+                                                        <TextBlock Text="{Binding Ilosc}" FontSize="14"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                                <GridViewColumn.Header>
+                                                    <TextBlock Text="Ilość"  >
+
+                                                    </TextBlock>
+                                                </GridViewColumn.Header>
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+
+                                <Button Name="lista_moich_roslinek" Grid.Row="1" Grid.ColumnSpan="2" Content="Wyświetl moje rośliny"  Command="{Binding TabMojeRoslinyVM.Sprawdzenie_uzytkownika}"  FontWeight="Bold" Height="34" Foreground="#618358" Background="{StaticResource TransparentGold}" Margin="0,2,0,0">
+
+
+
+
+                                </Button>
+                            </Grid>
+                        </TabItem>
+
+                        <!--Edycja-->
+
+                        <TabItem x:Name="edycja" Header="edycja" Background="#DAA520" Foreground="#618358"  >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="3.6*"/>
+                                    <ColumnDefinition Width="3.4*"/>
+
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Height="480" Grid.Column="0" Grid.RowSpan="2" Margin="5" Grid.ColumnSpan="5">
+                                    <TextBlock Text="Nazwa:"/>
+                                    <TextBox Margin="0,0,0,7" x:Name="nazwa"  Text="{Binding TabDodajRoslinyVM.Nazwa,  UpdateSourceTrigger=PropertyChanged}"/>
+
+                                    <TextBlock Text="Id rzędu:"/>
+                                    <TextBox  Margin="0,0,0,7" x:Name="id_rzedu" Text="{Binding TabDodajRoslinyVM.Id_rzedu,  UpdateSourceTrigger=PropertyChanged}"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Maksymalna wysokość:" Grid.Column="0"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding ElementName=maksymalna_wysokosc, Path=Value}"  HorizontalAlignment="Right" />
+                                    </Grid>
+
+                                    <Slider  Margin="0,0,0,7" x:Name="maksymalna_wysokosc" Maximum="50" Value="{Binding TabDodajRoslinyVM.Maksymalna_wysokosc,  UpdateSourceTrigger=PropertyChanged}" TickFrequency="1" IsSnapToTickEnabled="True" />
+                                    <TextBlock Text="Trudność uprawy:"/>
+                                    <ComboBox  Margin="0,0,0,7" x:Name="trudnosc_uprawy"  Text="{Binding TabDodajRoslinyVM.Trudnosc_uprawy,  UpdateSourceTrigger=PropertyChanged}">
+                                        <ComboBoxItem Content="trudna"></ComboBoxItem>
+                                        <ComboBoxItem Content="średnia"></ComboBoxItem>
+                                        <ComboBoxItem Content="łatwa"></ComboBoxItem>
+                                    </ComboBox>
+
+                                    <TextBlock Text="Kwasowość"/>
+                                    <ComboBox  Margin="0,0,0,7" x:Name="kwasowosc" Text="{Binding TabDodajRoslinyVM.Kwasowosc,  UpdateSourceTrigger=PropertyChanged}" >
+                                        <ComboBoxItem Content="obojętne"></ComboBoxItem>
+                                        <ComboBoxItem Content="lekko kwaśne"></ComboBoxItem>
+                                        <ComboBoxItem Content="kwaśne"></ComboBoxItem>
+                                    </ComboBox>
+
+                                    <TextBlock Text="Nasłonecznienie"/>
+                                    <ComboBox  Margin="0,0,0,7" x:Name="id_naslo" Text="{Binding TabDodajRoslinyVM.Id_naslo,  UpdateSourceTrigger=PropertyChanged}">
+                                        <ComboBoxItem TextSearch.Text="1">małe</ComboBoxItem>
+                                        <ComboBoxItem TextSearch.Text="2">średnie</ComboBoxItem>
+                                        <ComboBoxItem TextSearch.Text="3">duże</ComboBoxItem>
+                                    </ComboBox>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Background="#DAA520"  x:Name="button_Dodaj" Grid.Column="0" Content="Dodaj roślinę do bazy"
+                                    Margin="5"
+                                    Command="{Binding TabDodajRoslinyVM.Dodaj}"
+                                    IsEnabled="{Binding TabDodajRoslinyVM.DodawanieDostepne, Mode=OneWay}"
+                             />
+                                        <Button Background="#DAA520" x:Name="button_Edytuj" Grid.Column="1" Content="Edytuj" 
+                                    Margin="5"
+                                    Command="{Binding TabDodajRoslinyVM.Edytuj}"
+                                    IsEnabled="{Binding TabDodajRoslinyVM.EdycjaDostepna, Mode=OneWay}"
+                             />
+
+                                    </Grid>
+                                    <Button Background="#DAA520" x:Name="button_Usun" Content="Usun" 
+                                    Margin="5"
+                                    Command="{Binding TabDodajRoslinyVM.Usun}"
+                                    IsEnabled="{Binding TabDodajRoslinyVM.UsuniecieDostepne, Mode=OneWay}"
+                             />
+
+                                </StackPanel>
+                                <!-- LISTA ROSLIN -->
+                                <DataGrid 
+                                Grid.Row="0"
+                                    Grid.ColumnSpan="2"
+                                x:Name="dg_rosliny"
+                                Grid.Column="5"
+                                AutoGenerateColumns="False"
+                                Margin="10,5,5,5"
+                                HorizontalScrollBarVisibility="Visible"
+                                VerticalScrollBarVisibility="Visible"
+                                AlternatingRowBackground="{StaticResource TransparentGreen}" 
+                                RowBackground="{StaticResource TransparentGold}" 
+                     
+                                IsReadOnly="True"
+                                    
+                                ItemsSource="{Binding TabDodajRoslinyVM.RoślinyDomowe}"
+                                SelectedItem="{Binding TabDodajRoslinyVM.BiezacaRoslina}"
+                                SelectedIndex="{Binding TabDodajRoslinyVM.IdZaznaczenia, Mode=TwoWay}"  >
+
+                                    <DataGrid.Columns >
+
+                                        <DataGridTextColumn Header="Nazwa" Binding="{Binding Nazwa}" />
+                                        <DataGridTextColumn Header="Id rzędu" Binding="{Binding Id_rzedu}"/>
+                                        <DataGridTextColumn Header="Wysokość " Binding="{Binding Maksymalna_wysokosc}"/>
+                                        <DataGridTextColumn Header="Trudność uprawy" Binding="{Binding Trudnosc_uprawy}"/>
+                                        <DataGridTextColumn Header="Kwasowość" Binding="{Binding Kwasowosc}"/>
+                                        <DataGridTextColumn Header="Nasłonecznienie" Binding="{Binding Id_naslo}"/>
+                                    </DataGrid.Columns>
+
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SelectionChanged">
+                                            <i:InvokeCommandAction Command="{Binding TabDodajRoslinyVM.LadujFormularz}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </DataGrid>
+                                <DataGrid Grid.Row="1" Grid.Column="5"  GridLinesVisibility="None" ItemsSource="{Binding TabListaVM.Rzedy}" AutoGenerateColumns="False" Margin="157,0,0,0">
+                                    <DataGrid.Columns >
+                                        <DataGridTextColumn Header="Id rzędu" Binding="{Binding Id_rzedu}"/>
+                                        <DataGridTextColumn Header="Rząd" Binding="{Binding Nazwa}" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <DataGrid Grid.Row="1" Grid.Column="6"  GridLinesVisibility="None"  ItemsSource="{Binding TabListaVM.RodzinaZRzedu}" AutoGenerateColumns="False" Margin="0,0,170,0">
+                                    <DataGrid.Columns >
+                                        <DataGridTextColumn Header="Rodzina" Binding="{Binding Nazwa}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+
+
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+
+            </StackPanel>
+        </DockPanel>
+        <Button  x:Name="wyloguj" FontSize="13" Click="wyloguj_Click" Content="Wyloguj" VerticalAlignment="Top" Margin="0,30,26,0" HorizontalAlignment="Right" BorderThickness="3" BorderBrush="Gold"   FontWeight="Bold" Foreground="#618358" Background="#DAA520" Height="30" Width="100"/>
+
+    </Grid>
+</Window>
